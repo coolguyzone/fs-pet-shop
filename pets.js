@@ -14,25 +14,24 @@ var file = path.basename(process.argv[1]);
 
 if (cmd === 'read')
 {
- fs.readFile('pets.json', 'utf8', function(err, data) {
-  if (err) {
-    throw err;
-  }
+  fs.readFile('pets.json', 'utf8', function(err, data) {
+    if (err) {
+      throw err;
+    }
 
-  if (process.argv[3]) {
-    if (JSON.parse(data)[process.argv[3]] === undefined) {
-      console.error(`Usage: ${node} ${file} read INDEX`);
-      process.exit(1);
+    if (process.argv[3]) {
+      if (JSON.parse(data)[process.argv[3]] === undefined) {
+        console.error(`Usage: ${node} ${file} read INDEX`);
+        process.exit(1);
+      }
+      else {
+        console.log(JSON.parse(data)[process.argv[3]]);
+      }
     }
     else {
-      console.log(JSON.parse(data)[process.argv[3]]);
+      console.log(JSON.parse(data));
     }
-  }
-
-  else {
-    console.log(JSON.parse(data));
-  }
-});
+  });
 }
 
 else if (cmd === 'create') {
@@ -56,7 +55,7 @@ else if (cmd === 'create') {
            throw writeErr;
          }
          console.log(newPet);
-       })
+       });
      }
      else {
        console.error(`Usage: ${node} ${file} create AGE KIND NAME`);
@@ -78,8 +77,6 @@ else if (cmd === 'update') {
          name: process.argv[6]
        }
 
-
-
      var petsJSON = JSON.stringify(pets);
      console.log(petsJSON)
 
@@ -88,13 +85,13 @@ else if (cmd === 'update') {
          throw writeErr;
        }
      })
-      }
+    }
 
      else {
        console.error(`Usage: ${node} ${file} update INDEX AGE KIND NAME`);
        process.exit(1);
-     }
-     });
+      }
+  });
 }
 
 else if (cmd === 'destroy') {
