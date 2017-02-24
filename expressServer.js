@@ -39,36 +39,54 @@ app.get('/pets/:id', function(req, res){
 });
 
 app.post('/pets', function(req, res){
-  fs.readFile('pets.json', 'utf8', function(err, data){
-    if (err) {
-      console.log(err.stack);
-      return res.sendStatus(500);
-    }
-    var pets = JSON.parse(data);
-    var newPet = {
-      age: req.body.age,
-      name: req.body.name,
-      kind: req.body.kind
-    }
-    pets.push(newPet);
+  if (req.body !== '{}') {
+    if (req.body.age && req.body.name && req.body.kind) {
+      fs.readFile('pets.json', 'utf8', function(err, data){
+        if (err) {
+          console.log(err.stack);
+          return res.sendStatus(500);
+        }
+        var pets = JSON.parse(data);
+        var newPet = {
+          age: req.body.age,
+          name: req.body.name,
+          kind: req.body.kind
+        }
+        pets.push(newPet);
 
-    var petsJSON = JSON.stringify(pets);
+        var petsJSON = JSON.stringify(pets);
 
-    fs.writeFile('pets.json', petsJSON, function(writeErr) {
-      if(writeErr) {
-        throw writeErr;
-      }
-    });
-  });
-  res.json({
-    "name": req.body.name,
-    "age": req.body.age,
-    "kind": req.body.kind
-  });
+        fs.writeFile('pets.json', petsJSON, function(writeErr) {
+          if(writeErr) {
+            throw writeErr;
+          }
+        });
+      });
+      res.json({
+        "name": req.body.name,
+        "age": req.body.age,
+        "kind": req.body.kind
+      });
+    }
+    else {
+      console.log(req.body);
+
+      return res.sendStatus(400);
+    }
+  }
+  else {
+    return res.sendStatus(404);
+  }
 })
 
 app.listen(port, function(){
   console.log('Listening on ' + port);
 });
+
+app.use(function (req, res, next){
+  res.status(404).send("Sorry, can't find it!");
+})
+
+
 
 module.exports = app;
