@@ -9,6 +9,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 var morgan = require('morgan');
 
+var basicAuth = require('express-basic-auth')
+
+app.use(basicAuth({
+    users: { 'admin': 'meowmix' }
+}))
+
+
 app.post('/pets', function(req, res){
   if (req.body !== '{}') {
     if (req.body.age && req.body.name && req.body.kind) {
@@ -149,7 +156,8 @@ app.delete('/pets/:id', function(req, res){
 });
 
 app.use(function (req, res, next){
-  res.status(404).send("Sorry, can't find it!");
+  res.set('Content-Type', 'text/plain');
+  res.status(404).send("Not Found");
 })
 
 
