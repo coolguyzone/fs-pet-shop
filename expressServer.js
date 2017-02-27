@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
-var port = 8000;
+const PORT = process.env.PORT || 8000;
 
 app.get('/pets', function(req, res) {
   fs.readFile('pets.json', 'utf8', function(err, data){
@@ -79,8 +79,8 @@ app.post('/pets', function(req, res){
   }
 })
 
-app.listen(port, function(){
-  console.log('Listening on ' + port);
+app.listen(PORT, function(){
+  console.log('Listening on ' + PORT);
 });
 
 app.use(function (req, res, next){
@@ -89,4 +89,4 @@ app.use(function (req, res, next){
 
 
 
-module.exports = app;
+module.exPORTs = app;
