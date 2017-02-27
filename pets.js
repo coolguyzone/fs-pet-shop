@@ -4,11 +4,11 @@
 'use strict';
 
 
-var fs = require('fs');
-var cmd = process.argv[2];
-var path = require('path');
-var node = path.basename(process.argv[0]);
-var file = path.basename(process.argv[1]);
+const fs = require('fs');
+const cmd = process.argv[2];
+const path = require('path');
+const node = path.basename(process.argv[0]);
+const file = path.basename(process.argv[1]);
 
 
 
@@ -40,15 +40,15 @@ else if (cmd === 'create') {
        throw err;
      }
      if (process.argv[3] && process.argv[4] && process.argv[5]) {
-       var pets = JSON.parse(data);
-       var newPet = {
+       let pets = JSON.parse(data);
+       let newPet = {
          age: parseInt(process.argv[3]),
          kind: process.argv[4],
          name: process.argv[5]
        }
        pets.push(newPet);
 
-       var petsJSON = JSON.stringify(pets);
+       let petsJSON = JSON.stringify(pets);
 
        fs.writeFile('pets.json', petsJSON, function(writeErr) {
          if (writeErr) {
@@ -70,14 +70,14 @@ else if (cmd === 'update') {
        throw err;
      }
      if (process.argv[3] && process.argv[4] && process.argv[5] && process.argv[5]) {
-       var pets = JSON.parse(data);
+       let pets = JSON.parse(data);
        pets[process.argv[3]] = {
          age: parseInt(process.argv[4]),
          kind: process.argv[5],
          name: process.argv[6]
        }
 
-     var petsJSON = JSON.stringify(pets);
+     let petsJSON = JSON.stringify(pets);
      console.log(petsJSON)
 
      fs.writeFile('pets.json', petsJSON, function(writeErr) {
@@ -100,9 +100,9 @@ else if (cmd === 'destroy') {
      throw err;
    }
    if (process.argv[3]) {
-    var pets = JSON.parse(data);
+    let pets = JSON.parse(data);
     pets.splice(parseInt(process.argv[3]), 1);
-    var petsJSON = JSON.stringify(pets);
+    let petsJSON = JSON.stringify(pets);
     console.log(petsJSON);
 
     fs.writeFile('pets.json', petsJSON, function(writeErr) {
